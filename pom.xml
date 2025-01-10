@@ -47,18 +47,6 @@
     <scope>test</scope>
     </dependency>
 
-    <dependency>
-    <groupId>org.seleniumhq.selenium</groupId>
-    <artifactId>selenium-java</artifactId>
-    <version>3.141.59</version>
-    </dependency>
-
-    <dependency>
-    <groupId>io.github.bonigarcia</groupId>
-    <artifactId>webdrivermanager</artifactId>
-    <version>4.4.3</version>
-    <scope>test</scope>
-    </dependency>
 
     <dependency>
         <groupId>org.mockito</groupId>
@@ -66,12 +54,7 @@
         <version>4.11.0</version>
         <scope>test</scope>
     </dependency>
-    <dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>RELEASE</version>
-        <scope>compile</scope>
-    </dependency>
+
 
     <dependency>
         <groupId>net.bytebuddy</groupId>
