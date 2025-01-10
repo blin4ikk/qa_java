@@ -33,18 +33,28 @@ public class IsFelineTest {
     }
 
     @Test
-    public void testGetFood() throws Exception {
+    public void testGetFoodReturnsCorrectListForValidAnimalKind() throws Exception {
         Feline feline = new Feline();
+        String animalKind = "Хищник"; // Пример валидного значения
+        List<String> expectedFood = Arrays.asList("Животные", "Птицы", "Рыба");
 
-        if (expectedException == null) {
-            List<String> food = feline.getFood(animalKind);
-            assertEquals(expectedFood, food);
-        } else {
-            // Проверяем, что выбрасывается исключение
-            Exception exception = assertThrows(expectedException, () -> {
-                feline.getFood(animalKind);
-            });
-            assertEquals("Неизвестный вид животного, используйте значение Травоядное или Хищник", exception.getMessage());
-        }
+        List<String> actualFood = feline.getFood(animalKind);
+
+        assertEquals("Список еды должен совпадать", expectedFood, actualFood);
+    }
+
+    @Test
+    public void testGetFoodThrowsExceptionForInvalidAnimalKind() {
+        Feline feline = new Feline();
+        String invalidAnimalKind = "Неизвестный";
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            feline.getFood(invalidAnimalKind);
+        });
+
+        assertEquals(
+                "Неизвестный вид животного, используйте значение Травоядное или Хищник",
+                exception.getMessage()
+        );
     }
 }

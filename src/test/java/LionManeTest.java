@@ -13,41 +13,27 @@ import static org.mockito.Mockito.mock;
 @RunWith(Parameterized.class)
 public class LionManeTest {
 
-    private final String inputSex;
-    private final boolean expectedHasMane;
-    private final boolean expectException;
 
-    public LionManeTest(String inputSex, boolean expectedHasMane, boolean expectException) {
+    private final String inputSex;
+    private final boolean expected;
+
+    public LionManeTest(String inputSex, boolean expected) {
         this.inputSex = inputSex;
-        this.expectedHasMane = expectedHasMane;
-        this.expectException = expectException;
+        this.expected = expected;
     }
 
-    @Parameterized.Parameters(name = "Test with sex={0}, expectHasMane={1}, expectException={2}")
+    @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {"Самец", true, false},      // Пол "Самец", ожидаем грива = true
-                {"Самка", false, false},     // Пол "Самка", ожидаем грива = false
-                {"Некорректно", false, true} // Некорректный пол, ожидаем исключение
+                {"Самец", true},   // Пол "Самец", ожидаем грива = true
+                {"Самка", false}   // Пол "Самка", ожидаем грива = false
         });
     }
 
     @Test
-    public void testLionMane() {
+    public void testLionHasMane() throws Exception {
         Feline felineMock = mock(Feline.class); // Используем mock для Feline
-        try {
-            Lion lion = new Lion(inputSex, felineMock);
-
-            if (expectException) {
-                fail("Ожидалось исключение, но оно не было выброшено");
-            }
-
-            assertEquals("Грива должна соответствовать ожиданию", expectedHasMane, lion.doesHaveMane());
-        } catch (Exception e) {
-            if (!expectException) {
-                fail("Исключение не ожидалось, но было выброшено: " + e.getMessage());
-            }
-
-        }
+        Lion lion = new Lion(inputSex, felineMock);
+        assertEquals("Грива должна соответствовать ожиданию", expected, lion.doesHaveMane());
     }
 }

@@ -16,33 +16,40 @@ import static org.mockito.Mockito.when;
 public class FelineTest {
 
     @Spy
-    Feline feline;
+    Feline feline; // Используем Spy для тестирования реального класса
 
+    // Тесты для метода eatMeat()
     @Test
-    public void testEatMeat() throws Exception {
-        Mockito.when(feline.getFood("Хищник")).thenReturn(List.of("Мясо", "Рыба"));
+    public void testEatMeatReturnsCorrectFoodList() throws Exception {
+        doReturn(List.of("Мясо", "Рыба")).when(feline).getFood("Хищник");
 
-        // Проверяем, что метод возвращает нужный результат
-        List<String> food = feline.getFood("Хищник");
-        assertEquals(List.of("Мясо", "Рыба"), food); // Проверяем, что getFood() был вызван с правильным аргументом
+        List<String> food = feline.eatMeat();
+        assertEquals("Метод eatMeat должен возвращать ['Мясо', 'Рыба']", List.of("Мясо", "Рыба"), food);
     }
 
     @Test
-    public void testEatsMeat() throws Exception {
-        Mockito.when(feline.getFood("Хищник")).thenReturn(List.of("Мясо", "Рыба"));
+    public void testEatMeatCallsGetFoodWithCorrectArgument() throws Exception {
+        doReturn(List.of("Мясо", "Рыба")).when(feline).getFood("Хищник");
+        feline.eatMeat();
+        Mockito.verify(feline).getFood("Хищник");
+    }
 
-        // Проверяем, что метод возвращает нужный результат
-        List<String> food = feline.getFood("Хищник");
-        assertEquals(List.of("Мясо", "Рыба"), food); // Проверяем, что getFood() был вызван с правильным аргументом
+    // Тесты для метода getFamily()
+    @Test
+    public void testGetFamilyReturnsCorrectValue() {
+        assertEquals("Метод getFamily должен возвращать 'Кошачьи'", "Кошачьи", feline.getFamily());
+    }
+
+    // Тесты для метода getKittens()
+    @Test
+    public void testDefaultGetKittensReturnsOne() {
+        assertEquals("Метод getKittens по умолчанию должен возвращать 1", 1, feline.getKittens());
     }
 
     @Test
-    public void testGetFamily() {
-        assertEquals("Семейство должно быть 'Кошачьи'", "Кошачьи", feline.getFamily());
-    }
-
-    @Test
-    public void testDefaultGetKittens() {
-        assertEquals("По умолчанию должно быть 1 котенок", 1, feline.getKittens());
+    public void testDefaultGetKittensCallsOverloadedMethod() {
+        feline.getKittens();
+        Mockito.verify(feline).getKittens(1);
     }
 }
+
